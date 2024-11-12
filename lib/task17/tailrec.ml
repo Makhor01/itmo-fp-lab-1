@@ -62,4 +62,4 @@ let total_letters () =
 
 (* Печатаем результат *)
 
-let solve limit = total_letters () 
+let solve limit = total_letters limit 
