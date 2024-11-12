@@ -1,32 +1,26 @@
-(* Модуль для работы с последовательностью Коллатца *)
 module Collatz = struct
- (* Функция для генерации последовательности Коллатца *)
- let rec generate_sequence n =
+ (* Генерация последовательности Коллатца *)
+ let rec sequence n =
   if n = 1 then [1]
-  else n :: (if n mod 2 = 0 then generate_sequence (n / 2) else generate_sequence (3 * n + 1))
+  else if n mod 2 = 0 then n :: sequence (n / 2)
+  else n :: sequence (3 * n + 1)
 
- (* Функция для вычисления длины последовательности *)
- let rec collatz_length n =
-  if n = 1 then 1
-  else 1 + (if n mod 2 = 0 then collatz_length (n / 2) else collatz_length (3 * n + 1))
+ (* Фильтрация - поиск максимальной длины последовательности *)
+ let max_length limit =
+  let rec aux n max_n max_len =
+   if n > limit then (max_n, max_len)
+   else
+    let len = List.length (sequence n) in
+    if len > max_len then aux (n + 1) n len
+    else aux (n + 1) max_n max_len
+  in
+  aux 1 0 0
+end
 
- (* Функция для фильтрации последовательностей, завершившихся на 1 *)
- let filter_to_end_on_one seq =
-  List.filter (fun x -> x = 1) seq
+(* Свёртка - вычисление самой длинной последовательности *)
+let longest_collatz_sequence limit =
+ let (max_n, _) = Collatz.max_length limit in
+ max_n
 
- (* Функция для свёртки и нахождения максимума *)
- let find_longest_sequence max_limit =
-  let numbers = List.init max_limit (fun x -> x + 1) in
-  List.fold_left
-   (fun (max_len, max_num) i ->
-    let length = collatz_length i in
-    if length > max_len then (length, i) else (max_len, max_num))
-   (0, 0)
-   numbers
-
- (* Функция для решения задачи 14 *)
-(* Функция для решения задачи 14 *)
-let solve limit =
- let _, result = Collatz.find_longest_sequence limit in
- result
-
+(* Основная функция *)
+let solve limit = longest_collatz_sequence limit
