@@ -25,7 +25,8 @@ module Collatz = struct
    numbers
 
  (* Функция для решения задачи 14 *)
- let solve limit =
-  let _, result = find_longest_sequence limit in
-  result
-end
+(* Функция для решения задачи 14 *)
+let solve limit =
+ let _, result = Collatz.find_longest_sequence limit in
+ result
+
