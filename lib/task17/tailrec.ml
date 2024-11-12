@@ -60,6 +60,10 @@ let total_letters () =
   in
   aux 1 0
 
-(* Печатаем результат *)
-
-let solve limit = total_letters limit 
+(* Функция для решения задачи 14 *)
+let solve limit =
+  let rec aux n acc =
+    if n > limit then acc
+    else aux (n + 1) (acc + count_letters n)
+  in
+  aux 1 0
