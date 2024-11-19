@@ -8,7 +8,7 @@ let number_to_words n =
   let hundred = "hundred" in
   let thousand = "thousand" in
   
-  let rec aux n =
+  let aux n =
     if n = 0 then ""
     else if n < 10 then ones.(n)
     else if n < 20 then teens.(n - 10)
