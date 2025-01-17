@@ -23,10 +23,15 @@ let number_to_words n =
     in
     hundred_part ^ tens_and_ones_part
 
-(* Подсчет общего количества букв *)
+(* Иммутабельная функция подсчета общего количества букв через цикл *)
 let solve n =
-  let total = ref 0 in
-  for i = 1 to n do
-    total := !total + String.length (number_to_words i)
-  done;
-  !total
+  let total =
+    let rec loop acc i =
+      if i > n then acc
+      else
+        let word = number_to_words i in
+        loop (acc + String.length word) (i + 1)
+    in
+    loop 0 1
+  in
+total
